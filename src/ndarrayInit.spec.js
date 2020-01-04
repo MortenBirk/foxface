@@ -1,5 +1,5 @@
-import matrix from './matrix'
-import { full, zeros, ones, zeros_like } from './matrixInit'
+import ndarray from './ndarray'
+import { full, zeros, ones, zeros_like } from './ndarrayInit'
 
 
 describe('full', () => {
@@ -45,7 +45,7 @@ describe('Zeros', () => {
   })
 
   it('zeros_like corectly uses the reference objects shape and dtype', () => {
-    const mat = matrix([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {shape: [2, 3, 4], dtype: Int16Array})
+    const mat = ndarray([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {shape: [2, 3, 4], dtype: Int16Array})
     const zeros = zeros_like(mat)
     expect(zeros.values()).toEqual([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
     expect(zeros.shape).toEqual([2, 3, 4])

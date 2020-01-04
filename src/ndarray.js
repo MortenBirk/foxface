@@ -1,4 +1,4 @@
-import { forEach, map } from './matrixIteration'
+import { forEach, map } from './ndarrayIteration'
 import { copy, asType, values} from './transforms'
 import { avg, sum, min, max } from './internalMath'
 import { add, sub, div, mul, pow } from './externalMath'
@@ -73,7 +73,7 @@ const getView = (args, mat) => {
     return arg
   }).reduce((acc, e, idx) => acc + e * mat.strides[idx], 0)
 
-  return new Matrix(null, {source: mat, shape: shape, offset: mat.offset + shift, strides: strides})
+  return new ndarray(null, {source: mat, shape: shape, offset: mat.offset + shift, strides: strides})
 }
 
 const convertNegativeindexes = (args, mat) => {
@@ -163,7 +163,7 @@ const getSelectionValues = (selection, mat) => {
       values.push(mat.get(...indices))
     }
   })
-  return matrix(mat.dtype.from(values))
+  return ndarray(mat.dtype.from(values))
 }
 
 const setSelectionValues = (value, selection, mat) => {
@@ -174,10 +174,10 @@ const setSelectionValues = (value, selection, mat) => {
   })
 }
 
-class Matrix {
+class Ndarray {
   constructor(array, options={}) {
     const {dtype=null, source=null, shape=null, offset=null, strides=null} = options
-    // This is a new matrix from an array
+    // This is a new ndarray from an array
     if (array) {
       const inputType = determineDtype(array)
       let inputData = inputType === Array ? flat(array) : array
@@ -193,7 +193,7 @@ class Matrix {
       this.data = inputData
       return
     }
-    // This is a view of an existing matrix
+    // This is a view of an existing ndarray
     if (source && shape && strides) {
       this.shape = shape
       this.length = this.shape.reduce((acc, e) => e * acc, 1)
@@ -208,7 +208,7 @@ class Matrix {
 
   set = (selectionArg, value) => {
 
-    if (selectionArg instanceof Matrix) {
+    if (selectionArg instanceof Ndarray) {
       setSelectionValues(value, selectionArg, this)
       return
     }
@@ -224,7 +224,7 @@ class Matrix {
 
   get = (...args) => {
 
-    if (args.length === 1 && args[0] instanceof Matrix) {
+    if (args.length === 1 && args[0] instanceof Ndarray) {
       return getSelectionValues(args[0], this)
     }
 
@@ -246,8 +246,8 @@ class Matrix {
   forEach = (operation) => forEach(operation, this)
   map = (operation) => map(operation, this)
   values = () => values(this)
-  copy = () => copy(this, matrix)
-  asType = (dtype) => asType(dtype, this, matrix)
+  copy = () => copy(this, ndarray)
+  asType = (dtype) => asType(dtype, this, ndarray)
   avg = (axis) => avg(this, axis)
   sum = (axis) => sum(this, axis)
   min = () => min(this)
@@ -266,8 +266,8 @@ class Matrix {
 
 }
 
-const matrix = (array, options) => {
-  return new Matrix(array, options)
+const ndarray = (array, options) => {
+  return new Ndarray(array, options)
 }
 
-export default matrix
+export default ndarray

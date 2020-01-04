@@ -1,5 +1,5 @@
 
-// Apply a function to all elements in a matrix
+// Apply a function to all elements in a ndarray
 export const forEach = (operation, mat) => {
   const next = mat.shape.map(() => 0)
   let hasNext = true
@@ -30,7 +30,7 @@ export const forEach = (operation, mat) => {
   }
 }
 
-// Apply a function to a copy of a matrix and return that matrix
+// Apply a function to a copy of a ndarray and return that ndarray
 export const map = (operation, mat) => {
   mat = mat.copy()
   mat.forEach((val, idx, entry) => mat.data[idx] = operation(val, idx, entry))

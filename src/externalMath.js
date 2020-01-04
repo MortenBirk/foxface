@@ -1,9 +1,9 @@
 /**
- * Add a number or a matrix to an existing matrix
- * @param {Matrix} mat The matrix
- * @param {Matrix} other Another matrix or a number
- * @param {boolean} inplace if falsy a new matrix will be created, otherwize mat will be updated
- * @returns {Matrix|null} The updated matrix if inplace is falsy, otherwize null
+ * Add a number or a ndarray to an existing ndarray
+ * @param {ndarray} mat The ndarray
+ * @param {ndarray} other Another  or a number
+ * @param {boolean} inplace if falsy a new ndarray will be created, otherwize mat will be updated
+ * @returns {ndarray|null} The updated ndarray if inplace is falsy, otherwize null
  */
 export const add = (mat, other, inplace) => {
 

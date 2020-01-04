@@ -1,4 +1,4 @@
-import matrix from './matrix'
+import ndarray from './ndarray'
 
 export const zeros = (options) => {
   return full(0, options)
@@ -15,7 +15,7 @@ export const full = (value, options={}) => {
   }
   const length = shape.reduce((acc, e) => acc * e, 1)
   const data = dtype.from({length: length}, () => value)
-  return matrix(data, {shape})
+  return ndarray(data, {shape})
 }
 
 export const zeros_like = (other) => {

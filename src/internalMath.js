@@ -1,4 +1,4 @@
-import { zeros_like } from './matrixInit'
+import { zeros_like } from './ndarrayInit'
 
 export const avg = (mat, axis=null) => {
   if (axis !== null && axis !== undefined) {
