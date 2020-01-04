@@ -1,0 +1,40 @@
+{
+  "name": "foxface",
+  "version": "0.0.1",
+  "description": "Simple handling of n-dimensional arrays, with an interface like numpy",
+  "main": "lib/foxface.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "ndarray",
+    "array",
+    "multidimensional",
+    "matrix",
+    "numerical",
+    "numpy",
+    "math"
+  ],
+  "author": "Morten Henriksen Birk",
+  "license": "MIT",
+  "browserslist": "> 0.2%, not dead",
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-env": "^7.7.7",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "jest": "^24.9.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
