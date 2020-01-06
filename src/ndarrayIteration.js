@@ -4,7 +4,6 @@ export const forEach = (operation, mat) => {
   const next = mat.shape.map(() => 0)
   let hasNext = true
   while (hasNext) {
-
     // Apply operation to the current value
     const val = mat.get(...next)
     operation(val, mat.getBufferIdx(next), next)
@@ -22,8 +21,7 @@ export const forEach = (operation, mat) => {
           next[x] = 0
         }
         shapeEntry -= 1
-      }
-      else {
+      } else {
         break
       }
     }
@@ -33,6 +31,6 @@ export const forEach = (operation, mat) => {
 // Apply a function to a copy of a ndarray and return that ndarray
 export const map = (operation, mat) => {
   mat = mat.copy()
-  mat.forEach((val, idx, entry) => mat.data[idx] = operation(val, idx, entry))
+  mat.forEach((val, idx, entry) => (mat.data[idx] = operation(val, idx, entry)))
   return mat
 }

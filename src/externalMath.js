@@ -6,7 +6,6 @@
  * @returns {ndarray|null} The updated ndarray if inplace is falsy, otherwize null
  */
 export const add = (mat, other, inplace) => {
-
   if (!inplace) {
     if (typeof other === 'number') {
       return mat.map((e) => e + other)
@@ -15,14 +14,13 @@ export const add = (mat, other, inplace) => {
   }
 
   if (typeof other === 'number') {
-    mat.forEach((e, bufferIdx, _) => mat.data[bufferIdx] = e + other)
-    return 
+    mat.forEach((e, bufferIdx, _) => (mat.data[bufferIdx] = e + other))
+    return
   }
-   mat.forEach((e, bufferIdx, entry) => mat.data[bufferIdx] = e + other.data[other.getBufferIdx(entry)])
+  mat.forEach((e, bufferIdx, entry) => (mat.data[bufferIdx] = e + other.data[other.getBufferIdx(entry)]))
 }
 
 export const sub = (mat, other, inplace) => {
-
   if (!inplace) {
     if (typeof other === 'number') {
       return mat.map((e) => e - other)
@@ -31,14 +29,13 @@ export const sub = (mat, other, inplace) => {
   }
 
   if (typeof other === 'number') {
-    mat.forEach((e, bufferIdx, _) => mat.data[bufferIdx] = e - other)
-    return 
+    mat.forEach((e, bufferIdx, _) => (mat.data[bufferIdx] = e - other))
+    return
   }
-   mat.forEach((e, bufferIdx, entry) => mat.data[bufferIdx] = e - other.data[other.getBufferIdx(entry)])
+  mat.forEach((e, bufferIdx, entry) => (mat.data[bufferIdx] = e - other.data[other.getBufferIdx(entry)]))
 }
 
 export const div = (mat, other, inplace) => {
-
   if (!inplace) {
     if (typeof other === 'number') {
       return mat.map((e) => e / other)
@@ -47,14 +44,13 @@ export const div = (mat, other, inplace) => {
   }
 
   if (typeof other === 'number') {
-    mat.forEach((e, bufferIdx, _) => mat.data[bufferIdx] = e / other)
-    return 
+    mat.forEach((e, bufferIdx, _) => (mat.data[bufferIdx] = e / other))
+    return
   }
-   mat.forEach((e, bufferIdx, entry) => mat.data[bufferIdx] = e / other.data[other.getBufferIdx(entry)])
+  mat.forEach((e, bufferIdx, entry) => (mat.data[bufferIdx] = e / other.data[other.getBufferIdx(entry)]))
 }
 
 export const mul = (mat, other, inplace) => {
-
   if (!inplace) {
     if (typeof other === 'number') {
       return mat.map((e) => e * other)
@@ -63,14 +59,13 @@ export const mul = (mat, other, inplace) => {
   }
 
   if (typeof other === 'number') {
-    mat.forEach((e, bufferIdx, _) => mat.data[bufferIdx] = e * other)
-    return 
+    mat.forEach((e, bufferIdx, _) => (mat.data[bufferIdx] = e * other))
+    return
   }
-   mat.forEach((e, bufferIdx, entry) => mat.data[bufferIdx] = e * other.data[other.getBufferIdx(entry)])
+  mat.forEach((e, bufferIdx, entry) => (mat.data[bufferIdx] = e * other.data[other.getBufferIdx(entry)]))
 }
 
 export const pow = (mat, other, inplace) => {
-
   if (!inplace) {
     if (typeof other === 'number') {
       return mat.map((e) => e ** other)
@@ -79,8 +74,8 @@ export const pow = (mat, other, inplace) => {
   }
 
   if (typeof other === 'number') {
-    mat.forEach((e, bufferIdx, _) => mat.data[bufferIdx] = e ** other)
-    return 
+    mat.forEach((e, bufferIdx, _) => (mat.data[bufferIdx] = e ** other))
+    return
   }
-   mat.forEach((e, bufferIdx, entry) => mat.data[bufferIdx] = e ** other.data[other.getBufferIdx(entry)])
+  mat.forEach((e, bufferIdx, entry) => (mat.data[bufferIdx] = e ** other.data[other.getBufferIdx(entry)]))
 }

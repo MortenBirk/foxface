@@ -1,21 +1,20 @@
-import { zeros_like } from './ndarrayInit'
+import { zerosLike } from './ndarrayInit'
 
-export const avg = (mat, axis=null) => {
+export const avg = (mat, axis = null) => {
   if (axis !== null && axis !== undefined) {
-
     if (axis < 0) {
       axis = axis + mat.shape.length
     }
 
-    let entry = mat.shape.map(e => [])
+    const entry = mat.shape.map(e => [])
     entry[axis] = 0
-    const res = zeros_like(mat.get(...entry))
+    const res = zerosLike(mat.get(...entry))
     for (let idx = 0; idx < mat.shape[axis]; idx++) {
       entry[axis] = idx
       res.add(mat.get(...entry), true)
     }
 
-    res.forEach((e, bufferIdx) => res.data[bufferIdx] = e / mat.shape[axis])
+    res.forEach((e, bufferIdx) => (res.data[bufferIdx] = e / mat.shape[axis]))
     return res
   }
   const values = mat.values()
@@ -23,16 +22,15 @@ export const avg = (mat, axis=null) => {
   return sum / values.length
 }
 
-export const sum = (mat, axis=null) => {
+export const sum = (mat, axis = null) => {
   if (axis !== null && axis !== undefined) {
-
     if (axis < 0) {
       axis = axis + mat.shape.length
     }
 
-    let entry = mat.shape.map(e => [])
+    const entry = mat.shape.map(e => [])
     entry[axis] = 0
-    const res = zeros_like(mat.get(...entry))
+    const res = zerosLike(mat.get(...entry))
     for (let idx = 0; idx < mat.shape[axis]; idx++) {
       entry[axis] = idx
       res.add(mat.get(...entry), true)
@@ -54,7 +52,6 @@ export const min = (mat) => {
   })
   return min
 }
-
 
 export const max = (mat) => {
   let max = Number.NEGATIVE_INFINITY

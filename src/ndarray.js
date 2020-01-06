@@ -1,20 +1,20 @@
 import { forEach, map } from './ndarrayIteration'
-import { copy, asType, values} from './transforms'
+import { copy, asType, values } from './transforms'
 import { avg, sum, min, max } from './internalMath'
 import { add, sub, div, mul, pow } from './externalMath'
 import { eq, neq, gt, lt, ge, le } from './comparison'
 
-const  getDim = (a) => {
-  var dim = [];
+const getDim = (a) => {
+  var dim = []
   while (true) {
-      dim.push(a.length);
-      if (Array.isArray(a[0])) {
-          a = a[0];
-      } else {
-          break;
-      }
+    dim.push(a.length)
+    if (Array.isArray(a[0])) {
+      a = a[0]
+    } else {
+      break
+    }
   }
-  return dim;
+  return dim
 }
 
 const getStrides = (dims) => {
@@ -41,11 +41,10 @@ const getStrides = (dims) => {
 const flat = (arr) => {
   if (Array.isArray(arr[0])) {
     return arr.reduce((acc, val) => acc.concat(flat(val)), [])
-  }
-  else {
+  } else {
     return arr
   }
-};
+}
 
 const getView = (args, mat) => {
   const shape = args.map((arg, idx) => {
@@ -55,7 +54,7 @@ const getView = (args, mat) => {
       }
       if (arg.length !== 2) {
         throw new TypeError('Indices must be a range of two numbers, or an empty array')
-      } 
+      }
       return arg[1] - arg[0]
     }
     return null
@@ -73,7 +72,7 @@ const getView = (args, mat) => {
     return arg
   }).reduce((acc, e, idx) => acc + e * mat.strides[idx], 0)
 
-  return new ndarray(null, {source: mat, shape: shape, offset: mat.offset + shift, strides: strides})
+  return ndarray(null, { source: mat, shape: shape, offset: mat.offset + shift, strides: strides })
 }
 
 const convertNegativeindexes = (args, mat) => {
@@ -86,21 +85,18 @@ const convertNegativeindexes = (args, mat) => {
 }
 
 const validateGetArgs = (args, mat) => {
-
   if (args.length > mat.shape.length) {
     throw new RangeError('Index out of range')
   }
 
   args.forEach((e, idx) => {
-
     if (Array.isArray(e)) {
       e.forEach((entry) => {
         if (entry > mat.shape[idx]) {
           throw new RangeError('Index out of range')
         }
       })
-    }
-    else {
+    } else {
       if (e >= mat.shape[idx]) {
         throw new RangeError('Index out of range')
       }
@@ -114,8 +110,6 @@ const paddMissingRank = (args, mat) => {
   }
   return args
 }
-
-
 
 const types = [
   Array,
@@ -131,7 +125,7 @@ const types = [
 ]
 
 const determineDtype = (arrayLike) => {
-  for (let dtype of types) {
+  for (const dtype of types) {
     if (arrayLike instanceof dtype) {
       return dtype
     }
@@ -142,7 +136,7 @@ const select = (selection, mat) => {
   selection = convertNegativeindexes(selection, mat)
   selection = paddMissingRank(selection, mat)
   validateGetArgs(selection, mat)
-  let isView = false;
+  let isView = false
   selection.forEach((arg) => {
     if (Array.isArray(arg)) {
       isView = true
@@ -159,7 +153,7 @@ const select = (selection, mat) => {
 const getSelectionValues = (selection, mat) => {
   const values = []
   selection.forEach((value, _, indices) => {
-    if (value)  {
+    if (value) {
       values.push(mat.get(...indices))
     }
   })
@@ -168,20 +162,20 @@ const getSelectionValues = (selection, mat) => {
 
 const setSelectionValues = (value, selection, mat) => {
   selection.forEach((s, _, indices) => {
-    if (s)  {
+    if (s) {
       mat.set(indices, value)
     }
   })
 }
 
 class Ndarray {
-  constructor(array, options={}) {
-    const {dtype=null, source=null, shape=null, offset=null, strides=null} = options
+  constructor (array, options = {}) {
+    const { dtype = null, source = null, shape = null, offset = null, strides = null } = options
     // This is a new ndarray from an array
     if (array) {
       const inputType = determineDtype(array)
       let inputData = inputType === Array ? flat(array) : array
-      if (shape && inputData.length !== shape.reduce((a,e) => a * e, 1)) {
+      if (shape && inputData.length !== shape.reduce((a, e) => a * e, 1)) {
         throw new RangeError('Invalid shape provided for the given data')
       }
       this.dtype = dtype || inputType
@@ -207,7 +201,6 @@ class Ndarray {
   }
 
   set = (selectionArg, value) => {
-
     if (selectionArg instanceof Ndarray) {
       setSelectionValues(value, selectionArg, this)
       return
@@ -219,11 +212,10 @@ class Ndarray {
       return
     }
     // Else return the view
-    selection.forEach((_, idx) => this.data[idx] = value)
+    selection.forEach((_, idx) => (this.data[idx] = value))
   }
 
   get = (...args) => {
-
     if (args.length === 1 && args[0] instanceof Ndarray) {
       return getSelectionValues(args[0], this)
     }
@@ -252,18 +244,17 @@ class Ndarray {
   sum = (axis) => sum(this, axis)
   min = () => min(this)
   max = () => max(this)
-  add = (other, inplace=false) => add(this, other, inplace)
-  sub = (other, inplace=false) => sub(this, other, inplace)
-  div = (other, inplace=false) => div(this, other, inplace)
-  mul = (other, inplace=false) => mul(this, other, inplace)
-  pow = (other, inplace=false) => pow(this, other, inplace)
+  add = (other, inplace = false) => add(this, other, inplace)
+  sub = (other, inplace = false) => sub(this, other, inplace)
+  div = (other, inplace = false) => div(this, other, inplace)
+  mul = (other, inplace = false) => mul(this, other, inplace)
+  pow = (other, inplace = false) => pow(this, other, inplace)
   eq = (other) => eq(other, this)
   neq = (other) => neq(other, this)
   lt = (other) => lt(other, this)
   gt = (other) => gt(other, this)
   le = (other) => le(other, this)
   ge = (other) => ge(other, this)
-
 }
 
 const ndarray = (array, options) => {
