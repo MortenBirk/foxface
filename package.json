@@ -2,6 +2,10 @@
   "name": "foxface",
   "version": "0.0.1",
   "description": "Simple handling of n-dimensional arrays, with an interface like numpy",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/MortenBirk/foxface"
+  },
   "main": "lib/foxface.js",
   "scripts": {
     "build": "webpack",
