@@ -154,7 +154,7 @@ const getSelectionValues = (selection, mat) => {
   const values = []
   selection.forEach((value, _, indices) => {
     if (value) {
-      values.push(mat.get(...indices))
+      values.push(mat.get(indices))
     }
   })
   return ndarray(mat.dtype.from(values))
@@ -216,7 +216,7 @@ class Ndarray {
   /**
    * Set a part of the Ndarray
    * @method
-   * @param {number|number[]|Ndarray} selectionArg Description on which part of the Ndarray to get
+   * @param {number|number[]|Ndarray} selectionArg Description on which part of the Ndarray to set
    * @param {number} value The value to set set selected view to.
    */
   set = (selectionArg, value) => {
@@ -237,15 +237,15 @@ class Ndarray {
   /**
    * Get a part of the Ndarray
    * @method
-   * @param {number|number[]|Ndarray} args Description on which part of the Ndarray to get
-   * @return {Ndarray} The requested view of the data
+   * @param {number[]|Ndarray} selectionArgs Description on which part of the Ndarray to get
+   * @return {number|Ndarray} The requested view of the data
    */
-  get = (...args) => {
-    if (args.length === 1 && args[0] instanceof Ndarray) {
-      return getSelectionValues(args[0], this)
+  get = (selectionArg) => {
+    if (selectionArg instanceof Ndarray) {
+      return getSelectionValues(selectionArg, this)
     }
 
-    const selection = select(args, this)
+    const selection = select(selectionArg, this)
     // If we have selected a specific index and not a view, return the value
     if (Number.isInteger(selection)) {
       return this.data[selection]

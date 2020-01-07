@@ -5,7 +5,7 @@ export const forEach = (operation, mat) => {
   let hasNext = true
   while (hasNext) {
     // Apply operation to the current value
-    const val = mat.get(...next)
+    const val = mat.get(next)
     operation(val, mat.getBufferIdx(next), next)
 
     // Select the next element to iterate over in the following order for shape(1,1,1) -> [0,0,0] [0,0,1] [0,1,0] [0,1,1] [1,0,0] [1,0,1] [1,1,1]

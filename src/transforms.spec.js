@@ -38,10 +38,10 @@ describe('astype', () => {
     const copy = mat.asType(Float32Array)
     expect(mat.dtype).toEqual(Uint8Array)
     expect(copy.dtype).toEqual(Float32Array)
-    const previousVal = mat.get(3, 2, 1)
+    const previousVal = mat.get([3, 2, 1])
     mat.set([3, 2, 1], 1)
-    expect(mat.get(3, 2, 1)).toBe(1)
-    expect(copy.get(3, 2, 1)).toBe(previousVal)
+    expect(mat.get([3, 2, 1])).toBe(1)
+    expect(copy.get([3, 2, 1])).toBe(previousVal)
   })
 })
 
@@ -90,7 +90,7 @@ describe('values', () => {
   it('extracts all values of a view', () => {
     const inData = Array.from({ length: 20 * 15 * 3 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [20, 15, 3] })
-    const view = mat.get(5, [7, 11], 1)
+    const view = mat.get([5, [7, 11], 1])
     expect(view.values()).toEqual([247, 250, 253, 256])
   })
 })

@@ -8,10 +8,10 @@ export const avg = (mat, axis = null) => {
 
     const entry = mat.shape.map(e => [])
     entry[axis] = 0
-    const res = zerosLike(mat.get(...entry))
+    const res = zerosLike(mat.get(entry))
     for (let idx = 0; idx < mat.shape[axis]; idx++) {
       entry[axis] = idx
-      res.add(mat.get(...entry), true)
+      res.add(mat.get(entry), true)
     }
 
     res.forEach((e, bufferIdx) => (res.data[bufferIdx] = e / mat.shape[axis]))
@@ -30,10 +30,10 @@ export const sum = (mat, axis = null) => {
 
     const entry = mat.shape.map(e => [])
     entry[axis] = 0
-    const res = zerosLike(mat.get(...entry))
+    const res = zerosLike(mat.get(entry))
     for (let idx = 0; idx < mat.shape[axis]; idx++) {
       entry[axis] = idx
-      res.add(mat.get(...entry), true)
+      res.add(mat.get(entry), true)
     }
 
     return res

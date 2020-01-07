@@ -133,7 +133,7 @@ describe('ndarray instantiation', () => {
 describe('ndarray get', () => {
   it('Extracting view from array has correct shape and data', () => {
     const mat = ndarray(data)
-    const view = mat.get([1, 3], [], [2, 3])
+    const view = mat.get([[1, 3], [], [2, 3]])
 
     expect(view.shape).toEqual([2, 2, 1])
     expect(view.length).toBe(4)
@@ -143,7 +143,7 @@ describe('ndarray get', () => {
     for (let row = 0; row < view.shape[0]; row++) {
       for (let col = 0; col < view.shape[1]; col++) {
         for (let chan = 0; chan < view.shape[2]; chan++) {
-          out.push(view.get(row, col, chan))
+          out.push(view.get([row, col, chan]))
         }
       }
     }
@@ -152,14 +152,14 @@ describe('ndarray get', () => {
 
   it('Extracting a specific entry in a view squeezes the shape', () => {
     const mat = ndarray(data)
-    const view = mat.get(2, [], 2)
+    const view = mat.get([2, [], 2])
 
     expect(view.shape).toEqual([2])
 
     const expectedValues = [15, 18]
     const out = []
     for (let col = 0; col < view.shape[0]; col++) {
-      out.push(view.get(col))
+      out.push(view.get([col]))
     }
     expect(out).toEqual(expectedValues)
   })
@@ -167,10 +167,10 @@ describe('ndarray get', () => {
   it('Extracting a view from a view correctly selects data', () => {
     const inData = Array.from({ length: 20 * 15 * 3 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [20, 15, 3] })
-    const view1 = mat.get([0, 10], [], [0, 1])
+    const view1 = mat.get([[0, 10], [], [0, 1]])
     expect(view1.shape).toEqual([10, 15, 1])
 
-    const view2 = view1.get([2, 5], [1, 4], 0)
+    const view2 = view1.get([[2, 5], [1, 4], 0])
 
     expect(view2.shape).toEqual([3, 3])
     const out = view2.values()
@@ -180,13 +180,13 @@ describe('ndarray get', () => {
   it('Extracting a view from a squeezed view correctly selects data', () => {
     const inData = Array.from({ length: 20 * 15 * 3 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [20, 15, 3] })
-    const view1 = mat.get(5, [5, 15], 1)
+    const view1 = mat.get([5, [5, 15], 1])
     expect(view1.shape).toEqual([10])
 
-    const out1 = mat.get(5, [7, 11], 1).values()
+    const out1 = mat.get([5, [7, 11], 1]).values()
     expect(out1).toEqual([247, 250, 253, 256])
 
-    const view2 = view1.get([2, 6])
+    const view2 = view1.get([[2, 6]])
 
     expect(view2.shape).toEqual([4])
     const out2 = view2.values()
@@ -199,56 +199,56 @@ describe('ndarray get', () => {
     const inData = Array.from({ length: 10 * 5 * 2 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [10, 5, 2] })
 
-    expect(mat.get(5).shape).toEqual([5, 2])
-    expect(mat.get([1, 5]).shape).toEqual([4, 5, 2])
-    expect(mat.get([1, 5], 2).shape).toEqual([4, 2])
-    expect(mat.get(2, [1, 3]).shape).toEqual([2, 2])
-    expect(mat.get(0, [1, 3]).values()).toEqual([2, 3, 4, 5])
+    expect(mat.get([5]).shape).toEqual([5, 2])
+    expect(mat.get([[1, 5]]).shape).toEqual([4, 5, 2])
+    expect(mat.get([[1, 5], 2]).shape).toEqual([4, 2])
+    expect(mat.get([2, [1, 3]]).shape).toEqual([2, 2])
+    expect(mat.get([0, [1, 3]]).values()).toEqual([2, 3, 4, 5])
   })
 
   it('Providing more arguemtns then ndarray rank will throw an error', () => {
     const mat = ndarray(data)
-    expect(() => mat.get(1, 1, 1, 1)).toThrow(RangeError)
+    expect(() => mat.get([1, 1, 1, 1])).toThrow(RangeError)
   })
 
   it('Calling get with negative intergers properly return the correct value', () => {
     const mat = ndarray(data)
-    expect(mat.get(-4, -1, -1)).toEqual(18)
+    expect(mat.get([-4, -1, -1])).toEqual(18)
   })
 
   it('Getting a view using negative intergers works properly', () => {
     const mat = ndarray(data)
-    expect(mat.get([-5, 3], -1, [0, -1]).values()).toEqual([10, 11, 16, 17])
+    expect(mat.get([[-5, 3], -1, [0, -1]]).values()).toEqual([10, 11, 16, 17])
   })
 
   it('Calling get with only integers returns the value at the index', () => {
     const mat = ndarray(data)
-    expect(mat.get(2, 1, 2)).toEqual(18)
+    expect(mat.get([2, 1, 2])).toEqual(18)
   })
 
   it('Calling get with out of range integers will throw an error', () => {
     const mat = ndarray(data)
-    expect(() => mat.get(2, 5, 2)).toThrow(RangeError)
+    expect(() => mat.get([2, 5, 2])).toThrow(RangeError)
   })
 
   it('Calling get for a view with out of range integers will throw an error', () => {
     const mat = ndarray(data)
-    expect(() => mat.get(100, [], 2)).toThrow(RangeError)
+    expect(() => mat.get([100, [], 2])).toThrow(RangeError)
   })
 
   it('Calling get with a range containing more than 2 values should throw an error', () => {
     const mat = ndarray(data)
-    expect(() => mat.get(0, [0, 1, 2], 0)).toThrow(TypeError)
+    expect(() => mat.get([0, [0, 1, 2], 0])).toThrow(TypeError)
   })
 
   it('Calling get with a range containing only one values should throw an error', () => {
     const mat = ndarray(data)
-    expect(() => mat.get(0, [0], 0)).toThrow(TypeError)
+    expect(() => mat.get([0, [0], 0])).toThrow(TypeError)
   })
 
   it('Calling get with a range larger than the shape should throw an error', () => {
     const mat = ndarray(data)
-    expect(() => mat.get(0, [0, 20], 0)).toThrow(RangeError)
+    expect(() => mat.get([0, [0, 20], 0])).toThrow(RangeError)
   })
 
   it('Calling get with a ndarray returns a new flat ndarray with the values at indexes with values in the selection ndarray larger than 0', () => {
@@ -265,18 +265,18 @@ describe('ndarray set', () => {
     const inData = Array.from({ length: 10 * 5 * 2 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [10, 5, 2] })
 
-    expect(mat.get(5, 3, 1)).toBe(57)
+    expect(mat.get([5, 3, 1])).toBe(57)
     mat.set([5, 3, 1], 2.343)
-    expect(mat.get(5, 3).values()).toEqual([56, 2.343])
+    expect(mat.get([5, 3]).values()).toEqual([56, 2.343])
   })
 
   it('Setting a value at a view properly update all values in view', () => {
     const inData = Array.from({ length: 3 * 3 * 2 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [3, 3, 2] })
 
-    expect(mat.get(1).values()).toEqual([6, 7, 8, 9, 10, 11])
+    expect(mat.get([1]).values()).toEqual([6, 7, 8, 9, 10, 11])
     mat.set([1], 3.21)
-    expect(mat.get(1).values()).toEqual([3.21, 3.21, 3.21, 3.21, 3.21, 3.21])
+    expect(mat.get([1]).values()).toEqual([3.21, 3.21, 3.21, 3.21, 3.21, 3.21])
     expect(mat.values()).toEqual([0, 1, 2, 3, 4, 5, 3.21, 3.21, 3.21, 3.21, 3.21, 3.21, 12, 13, 14, 15, 16, 17])
   })
 

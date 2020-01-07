@@ -22,7 +22,7 @@ describe('ndarray iteration', () => {
 
   it('forEach applies to all elements in a view', () => {
     const mat = ndarray(data)
-    const view = mat.get([1, 3], [], [2, 3])
+    const view = mat.get([[1, 3], [], [2, 3]])
 
     const out = []
     const expectedValues = [9, 12, 15, 18]
