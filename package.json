@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "description": "Simple handling of n-dimensional arrays, with an interface like numpy",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/MortenBirk/foxface"
+    "type": "git",
+    "url": "https://github.com/MortenBirk/foxface"
   },
   "main": "lib/foxface.js",
   "scripts": {
     "build": "webpack",
-    "document": "documentation build src/** -f html -o docs",
+    "document": "./node_modules/.bin/jsdoc src -r -d docs",
     "test": "jest --coverage",
     "lint": "eslint src/"
   },
@@ -48,6 +48,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
+    "jsdoc": "^3.6.3",
     "standard": "^14.3.1",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"

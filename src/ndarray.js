@@ -168,6 +168,19 @@ const setSelectionValues = (value, selection, mat) => {
   })
 }
 
+/**
+ * @typedef {Object} NdarrayOptions
+ * @property {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} dtype The datatype of the NdArray
+ * @property {number[]} shape The shape of the object, where each number describes the size of each dimension
+ */
+
+/**
+ * The base class of foxface.
+ * Ndarray represents a multi dimensional array, and exposes a bunch of methods for operations on high dimensionality data.
+ *
+ * Instances of this class should be instantiated through the {@link ndarray }
+ * @hideconstructor
+ */
 class Ndarray {
   constructor (array, options = {}) {
     const { dtype = null, source = null, shape = null, offset = null, strides = null } = options
@@ -244,6 +257,12 @@ class Ndarray {
   sum = (axis) => sum(this, axis)
   min = () => min(this)
   max = () => max(this)
+  /**
+ * Add a number or a ndarray to an existing ndarray
+ * @param {Ndarray} other Another  or a number
+ * @param {boolean} inplace if falsy a new ndarray will be created, otherwize mat will be updated
+ * @returns {Ndarray|null} The updated ndarray if inplace is falsy, otherwize null
+ */
   add = (other, inplace = false) => add(this, other, inplace)
   sub = (other, inplace = false) => sub(this, other, inplace)
   div = (other, inplace = false) => div(this, other, inplace)
@@ -257,6 +276,14 @@ class Ndarray {
   ge = (other) => ge(other, this)
 }
 
+/**
+ * Create a new {@link Ndarray}
+ * @param {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} array
+ * @param {NdarrayOptions} options
+ * @returns {Ndarray}
+ * @example <caption>Create an array from an array of arrays</caption>
+ * const arr = ndarray([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]], [[13, 14, 15], [16, 17, 18]]])
+ */
 const ndarray = (array, options) => {
   return new Ndarray(array, options)
 }
