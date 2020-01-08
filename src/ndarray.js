@@ -178,7 +178,7 @@ const setSelectionValues = (value, selection, mat) => {
  * The base class of foxface.
  * Ndarray represents a multi dimensional array, and exposes a bunch of methods for operations on high dimensionality data.
  *
- * Instances of this class should be instantiated through the {@link ndarray } factory function.
+ * Instances of this class should be instantiated through the {@link ndarray } object factory function.
  * @hideconstructor
  */
 class Ndarray {
@@ -216,7 +216,7 @@ class Ndarray {
   /**
    * Set a part of the Ndarray
    * @method
-   * @param {number|number[]|Ndarray} selectionArg Description on which part of the Ndarray to set
+   * @param {number[]|Ndarray} selectionArg Description on which part of the Ndarray to set
    * @param {number} value The value to set set selected view to.
    */
   set = (selectionArg, value) => {
@@ -300,6 +300,7 @@ class Ndarray {
   copy = () => copy(this, ndarray)
   /**
    * Return a copy of the Ndarray working on a new buffer with the specified datatype
+   * @method
    * @param {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} dtype the datatype to convert to
    * @returns {number[]}
    */
