@@ -1,5 +1,5 @@
 import { forEach, map } from './ndarrayIteration'
-import { copy, asType, values } from './transforms'
+import { copy, asType, values, toList } from './transforms'
 import { avg, sum, min, max } from './internalMath'
 import { add, sub, div, mul, pow } from './externalMath'
 import { eq, neq, gt, lt, ge, le } from './comparison'
@@ -302,6 +302,11 @@ class Ndarray {
    * @returns {number[]}
    */
   values = () => values(this)
+  /**
+ * Return an array of arrays. This is basically an export to js function
+ * @returns {array[]}
+ */
+  toList = () => toList(this)
   /**
    * Return a copy of the Ndarray working on a new buffer
    * @returns {number[]}

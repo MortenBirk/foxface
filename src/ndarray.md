@@ -109,6 +109,15 @@ const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
 console.log(arr.values())
 ```
 
+@id Ndarray.toList
+@desc Return an array of arrays. This is basically an export to js function
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray([[1, 2, 6], [4, 3, 12], [3, -2, 22]])
+console.log(JSON.stringify(arr.toList()))
+```
+
 @id Ndarray.copy
 @desc Create a copy of an existing ndarray working on a new buffer
 

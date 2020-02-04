@@ -14,3 +14,25 @@ export const values = (mat) => {
   mat.forEach((x) => result.push(x))
   return result
 }
+
+// Convert Ndarray to an array of arrays (basically export to regular javascript)
+export const toList = (mat) => {
+  if (mat.shape.length === 1) {
+    return mat.values()
+  }
+  const result = []
+  mat.forEach((value, _, index) => {
+    let current = result
+    index.forEach((entry, idx) => {
+      if (idx === index.length - 1) {
+        return
+      }
+      if (!current[entry]) {
+        current[entry] = []
+      }
+      current = current[entry]
+    })
+    current[index[index.length - 1]] = value
+  })
+  return result
+}

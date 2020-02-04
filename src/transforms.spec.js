@@ -94,3 +94,23 @@ describe('values', () => {
     expect(view.values()).toEqual([247, 250, 253, 256])
   })
 })
+
+describe('toList', () => {
+  it('Extract all values of a flat array', () => {
+    const inData = [1, 2, 6, 4, 3, 12, 3, -2, 22]
+    const mat = ndarray(new Float32Array([1, 2, 6, 4, 3, 12, 3, -2, 22]))
+    expect(mat.toList()).toEqual(inData)
+  })
+
+  it('Extract all values of a 2d array', () => {
+    const inData = [[1, 2, 6], [4, 3, 12], [3, -2, 22]]
+    const mat = ndarray(inData)
+    expect(mat.toList()).toEqual(inData)
+  })
+
+  it('Extracts all values of a 3d array', () => {
+    const inData = [[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]], [[13, 14, 15], [16, 17, 18]], [[19, 20, 21], [22, 23, 24]], [[25, 26, 27], [28, 29, 30]], [[31, 32, 33], [34, 35, 36]]]
+    const mat = ndarray(inData)
+    expect(mat.toList()).toEqual(inData)
+  })
+})
