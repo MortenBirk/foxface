@@ -9,7 +9,7 @@
   "main": "lib/foxface.js",
   "scripts": {
     "build": "webpack",
-    "document": "./node_modules/.bin/jsdoc src -r -d docs",
+    "document": "fishfingers",
     "test": "jest --coverage",
     "lint": "eslint src/"
   },
@@ -48,9 +48,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
-    "jsdoc": "^3.6.3",
     "standard": "^14.3.1",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "fishfingers": "0.0.3"
   }
 }

@@ -168,18 +168,42 @@ const setSelectionValues = (value, selection, mat) => {
   })
 }
 
+/* eslint-disable */
+/* istanbul ignore next */
 /**
- * @typedef {Object} NdarrayOptions
- * @property {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} dtype The datatype of the NdArray
- * @property {number[]} shape The shape of the object, where each number describes the size of each dimension
+ * The options object parsed when creating or modifying Ndarrays.
+ * @category Parameters
  */
+const NdarrayOptions = {
+  /**
+   * @type {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array}
+   * The datatype of the Ndarray
+   */
+  dtype: [],
+  /**
+   * @type {number[]}
+   * The shape of the object, where each number describes the size of each dimension
+   */
+  shape: []
+}
+
+/* istanbul ignore next */
+/**
+ * This is the function type which will be invoked on each iteration callback, from ndarrays forEach and map methods.
+ * @param {number} value The value for the current element
+ * @param {number} bufferIdx The current elements index in the buffer. This should rarely be used, unless you have a clear understanding of the underlying buffer
+ * @param {number[]} index The indices of the current element. This is what you would use as arguement to Ndarrays get method
+ * @category Parameters
+ */
+const iterationCallback = (value, bufferIdx, index) => {}
+/* eslint-enable */
 
 /**
  * The base class of foxface.
+ *
  * Ndarray represents a multi dimensional array, and exposes a bunch of methods for operations on high dimensionality data.
  *
- * Instances of this class should be instantiated through the {@link ndarray } object factory function.
- * @hideconstructor
+ * Instances of this class should be instantiated through the ndarray object factory function, as shown in the examples.
  */
 class Ndarray {
   constructor (array, options = {}) {
@@ -214,8 +238,7 @@ class Ndarray {
   }
 
   /**
-   * Set a part of the Ndarray
-   * @method
+   * Set values for a part of the Ndarray
    * @param {number[]|Ndarray} selectionArg Description on which part of the Ndarray to set
    * @param {number} value The value to set set selected view to.
    */
@@ -236,9 +259,8 @@ class Ndarray {
 
   /**
    * Get a part of the Ndarray
-   * @method
    * @param {number[]|Ndarray} selectionArgs Description on which part of the Ndarray to get
-   * @return {number|Ndarray} The requested view of the data
+   * @returns {number|Ndarray} The requested view of the data
    */
   get = (selectionArg) => {
     if (selectionArg instanceof Ndarray) {
@@ -263,23 +285,12 @@ class Ndarray {
   // Value iteration
 
   /**
- * This callback type is called `requestCallback` and is displayed as a global symbol.
- *
- * @callback iterationCallback
- * @param {number} value The value for the current element
- * @param {number} bufferIdx The current elements index in the buffer. This should rarely be used
- * @param {number[]} index The indices of the current element. This is what you would use as arguement to Ndarrays get method
- */
-
-  /**
    * Applies the given function to each element in the Ndarray
-   * @method
    * @param {iterationCallback} operation The operation to apply to each element
    */
   forEach = (operation) => forEach(operation, this)
   /**
    * Applies the given function to each element in the Ndarray, and construct a new Ndarray with the returned values
-   * @method
    * @param {iterationCallback} operation The operation to apply to each element
    */
   map = (operation) => map(operation, this)
@@ -288,19 +299,16 @@ class Ndarray {
 
   /**
    * Return a flat array of values in the NdArray
-   * @method
    * @returns {number[]}
    */
   values = () => values(this)
   /**
    * Return a copy of the Ndarray working on a new buffer
-   * @method
    * @returns {number[]}
    */
   copy = () => copy(this, ndarray)
   /**
    * Return a copy of the Ndarray working on a new buffer with the specified datatype
-   * @method
    * @param {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} dtype the datatype to convert to
    * @returns {number[]}
    */
@@ -310,34 +318,29 @@ class Ndarray {
 
   /**
    * Get the average value of the Ndarray
-   * @method
    * @param {number} [axis = null] If specified an axis along which the avg should be found
    * @returns {number|Ndarray} If no axis is specified a number is returned, otherwise a new Ndarray is returned
    */
   avg = (axis) => avg(this, axis)
   /**
    * Get the sum of the Ndarray
-   * @method
    * @param {number} [axis = null] If specified an axis along which the sum should be found
    * @returns {number|Ndarray} If no axis is specified a number is returned, otherwise a new Ndarray is returned
    */
   sum = (axis) => sum(this, axis)
   /**
    * Get the min value of the Ndarray
-   * @method
    * @returns {number}
    */
   min = () => min(this)
   /**
    * Get the max value of the Ndarray
-   * @method
    * @returns {number}
    */
   max = () => max(this)
 
   /**
    * Add a number or a Ndarray (element wize) to a Ndarray
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to add to this Ndarray
    * @param {boolean} [inplace = false] If true, the Ndarray will be updated and nothing will be returned
    * @returns {Ndarray|null} The updated Ndarray if inplace is false, otherwise null
@@ -345,7 +348,6 @@ class Ndarray {
   add = (other, inplace = false) => add(this, other, inplace)
   /**
    * Substract a number or a Ndarray (element wize) from a Ndarray
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to subtract from this Ndarray
    * @param {boolean} [inplace = false] If true, the Ndarray will be updated and nothing will be returned
    * @returns {Ndarray|null} The updated Ndarray if inplace is false, otherwise null
@@ -353,7 +355,6 @@ class Ndarray {
   sub = (other, inplace = false) => sub(this, other, inplace)
   /**
    * Divide the Ndarray with a number or another Ndarray (element wize)
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to divide this Ndarray with
    * @param {boolean} [inplace = false] If true, the Ndarray will be updated and nothing will be returned
    * @returns {Ndarray|null} The updated Ndarray if inplace is false, otherwise null
@@ -361,7 +362,6 @@ class Ndarray {
   div = (other, inplace = false) => div(this, other, inplace)
   /**
    * Multiply a number or a Ndarray (element wize) to the Ndarray
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to multiply with this Ndarray
    * @param {boolean} [inplace = false] If true, the Ndarray will be updated and nothing will be returned
    * @returns {Ndarray|null} The updated Ndarray if inplace is false, otherwise null
@@ -369,7 +369,6 @@ class Ndarray {
   mul = (other, inplace = false) => mul(this, other, inplace)
   /**
    * Raise the Ndarray to the power of a specified number of Ndarray (element wize)
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to raise the Ndarray to
    * @param {boolean} [inplace = false] If true, the Ndarray will be updated and nothing will be returned
    * @returns {Ndarray|null} The updated Ndarray if inplace is false, otherwise null
@@ -380,42 +379,36 @@ class Ndarray {
 
   /**
    * Create a new Ndarray with 1 where values are equal
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to compare values with element wize
    * @returns {Ndarray}
    */
   eq = (other) => eq(other, this)
   /**
    * Create a new Ndarray with 1 where values are not equal
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to compare values with element wize
    * @returns {Ndarray}
    */
   neq = (other) => neq(other, this)
   /**
    * Create a new Ndarray with 1 where values are smaller
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to compare values with element wize
    * @returns {Ndarray}
    */
   lt = (other) => lt(other, this)
   /**
    * Create a new Ndarray with 1 where values are larger
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to compare values with element wize
    * @returns {Ndarray}
    */
   gt = (other) => gt(other, this)
   /**
    * Create a new Ndarray with 1 where values are less than or equal
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to compare values with element wize
    * @returns {Ndarray}
    */
   le = (other) => le(other, this)
   /**
    * Create a new Ndarray with 1 where values are greater than or equal
-   * @method
    * @param {Ndarray|number} other The value or Ndarray to compare values with element wize
    * @returns {Ndarray}
    */
@@ -423,28 +416,11 @@ class Ndarray {
 }
 
 /**
- * Create a new {@link Ndarray}
- * @param {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} data The data for the nd-array. It can be a flat array or typed array, or it can be an array of arrays.
+ * Create a new Ndarray
+ * @param {Array|Float32Array|Float64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array} data The data for the Ndarray. It can be a flat array or typed array, or it can be an array of arrays.
  * @param {NdarrayOptions} options Define creation options of the array. If no options are specified the ndarray will have shape and dtype like the provided data.
  * @returns {Ndarray}
- * @example <caption>Create nd-array from an array of arrays</caption>
- * const arr = ndarray([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]], [[13, 14, 15], [16, 17, 18]]])
- * arr.shape
- * // [2,2,3]
- * arr.dtype
- * // Array
- * @example <caption>Create nd-array from an array of arrays, with another datatype</caption>
- * const arr = ndarray([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]], [[13, 14, 15], [16, 17, 18]]], {dtype: Float32Array})
- * arr.shape
- * // [2,2,3]
- * arr.dtype
- * // Float32Array
- * @example <caption>Create nd-array from a flat typed array, with another shape</caption>
- * const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [2, 2, 3]})
- * arr.shape
- * // [2,2,3]
- * arr.dtype
- * // Float32Array
+ * @category Array creation
  */
 const ndarray = (data, options) => {
   return new Ndarray(data, options)
