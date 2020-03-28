@@ -49,6 +49,17 @@ console.log(arr.values())
 ```
 
 @id Ndarray.set
+@desc Set values based on the existing value by providing a callback function instead of an actual value
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+// The callback function is called with the value at the given index which is updated
+arr.set([[1,3], 0, []], (value) => value + 2.5)
+console.log(arr.values())
+```
+
+@id Ndarray.set
 @desc Set values for indices selected by another ndarray
 
 ```js
@@ -58,6 +69,7 @@ const selection = ndarray(new Int16Array([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
 arr.set(selection, 5)
 console.log(arr.values())
 ```
+
 
 @id Ndarray.get
 @desc Get values for a given window

@@ -261,7 +261,7 @@ describe('ndarray get', () => {
 })
 
 describe('ndarray set', () => {
-  it('Setting a value at a specific index properly updates the buffer data', () => {
+  it('Setting a value as number at a specific index properly updates the buffer data', () => {
     const inData = Array.from({ length: 10 * 5 * 2 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [10, 5, 2] })
 
@@ -270,7 +270,16 @@ describe('ndarray set', () => {
     expect(mat.get([5, 3]).values()).toEqual([56, 2.343])
   })
 
-  it('Setting a value at a view properly update all values in view', () => {
+  it('Setting a value as function at a specific index properly updates the buffer data', () => {
+    const inData = Array.from({ length: 10 * 5 * 2 }, (_, idx) => idx)
+    const mat = ndarray(inData, { shape: [10, 5, 2] })
+
+    expect(mat.get([5, 3, 1])).toBe(57)
+    mat.set([5, 3, 1], (value) => value + 5)
+    expect(mat.get([5, 3]).values()).toEqual([56, 62])
+  })
+
+  it('Setting a value at as number a view properly update all values in view', () => {
     const inData = Array.from({ length: 3 * 3 * 2 }, (_, idx) => idx)
     const mat = ndarray(inData, { shape: [3, 3, 2] })
 
@@ -280,10 +289,28 @@ describe('ndarray set', () => {
     expect(mat.values()).toEqual([0, 1, 2, 3, 4, 5, 3.21, 3.21, 3.21, 3.21, 3.21, 3.21, 12, 13, 14, 15, 16, 17])
   })
 
-  it('Calling set with a ndarray updates the ndarray values at indexes with values in the selection ndarray larger than 0', () => {
+  it('Setting a value as function at a view properly update all values in view', () => {
+    const inData = Array.from({ length: 3 * 3 * 2 }, (_, idx) => idx)
+    const mat = ndarray(inData, { shape: [3, 3, 2] })
+
+    expect(mat.get([1]).values()).toEqual([6, 7, 8, 9, 10, 11])
+    mat.set([1], (value) => value + 2)
+    expect(mat.get([1]).values()).toEqual([8, 9, 10, 11, 12, 13])
+    expect(mat.values()).toEqual([0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 12, 13, 14, 15, 16, 17])
+  })
+
+  it('Calling set with a ndarray updates the ndarray values at indexes with values in the selection ndarray larger than 0 with value as number', () => {
     const mat = ndarray(data, { dtype: Float64Array })
     mat.set(mat.lt(30), 5)
     expect(mat.values()).toEqual([5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 30, 31, 32, 33, 34, 35, 36])
+    expect(mat.shape).toEqual([6, 2, 3])
+    expect(mat.dtype).toBe(Float64Array)
+  })
+
+  it('Calling set with a ndarray updates the ndarray values at indexes with values in the selection ndarray larger than 0, with value as function', () => {
+    const mat = ndarray(data, { dtype: Float64Array })
+    mat.set(mat.lt(30), (value) => value + 2)
+    expect(mat.values()).toEqual([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 30, 31, 32, 33, 34, 35, 36])
     expect(mat.shape).toEqual([6, 2, 3])
     expect(mat.dtype).toBe(Float64Array)
   })

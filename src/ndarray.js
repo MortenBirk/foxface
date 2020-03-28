@@ -240,7 +240,7 @@ class Ndarray {
   /**
    * Set values for a part of the Ndarray
    * @param {number[]|Ndarray} selectionArg Description on which part of the Ndarray to set
-   * @param {number} value The value to set set selected view to.
+   * @param {number|function} value The value to set set selected view to.
    */
   set = (selectionArg, value) => {
     if (selectionArg instanceof Ndarray) {
@@ -248,13 +248,18 @@ class Ndarray {
       return
     }
 
+    let getVal = value
+    if (!(typeof value === 'function')) {
+      getVal = () => value
+    }
+
     const selection = select(selectionArg, this)
     if (Number.isInteger(selection)) {
-      this.data[selection] = value
+      this.data[selection] = getVal(this.data[selection])
       return
     }
     // Else set values in the window
-    selection.forEach((_, idx) => (this.data[idx] = value))
+    selection.forEach((_, idx) => (this.data[idx] = getVal(this.data[idx])))
   }
 
   /**
