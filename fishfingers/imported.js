@@ -1,1 +1,1 @@
-import ndarray, { zeros, ones, full, zerosLike } from 'root/lib/foxface'
+import ndarray, { zeros, ones, full, zerosLike, stack } from 'root/lib/foxface'

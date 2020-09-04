@@ -36,3 +36,13 @@ const arr = ndarray(new Float32Array([1, 2, 6, 4, 3, 12, 3, -2, 22]), {shape: [3
 const result = arr.map(e => e > 10 ? e + 5 : e)
 result.values() // [1, 2, 6, 4, 3, 17, 3, -2, 27]
 ```
+
+## Whats next
+
+Allow `ndarray.set()` to take an ndarray as value instead of only functions and values. This way one can set an entire dimension at once
+
+Allow for some easy drawing functions, to visualize data on a canvas. This is often usefull, and much more usable for debugging than just writing to the console.
+
+Add a bunch of input validation
+
+Add proper default values to documentation

@@ -205,7 +205,7 @@ const iterationCallback = (value, bufferIdx, index) => {}
  *
  * Instances of this class should be instantiated through the ndarray object factory function, as shown in the examples.
  */
-class Ndarray {
+export class Ndarray {
   constructor (array, options = {}) {
     const { dtype = null, source = null, shape = null, offset = null, strides = null } = options
     // This is a new ndarray from an array
