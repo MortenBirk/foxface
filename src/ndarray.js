@@ -1,6 +1,6 @@
 import { forEach, map } from './ndarrayIteration'
 import { copy, asType, values, toList } from './transforms'
-import { avg, sum, min, max } from './internalMath'
+import { avg, median, variance, std, sum, min, max } from './internalMath'
 import { add, sub, div, mul, pow } from './externalMath'
 import { eq, neq, gt, lt, ge, le } from './comparison'
 
@@ -332,6 +332,24 @@ export class Ndarray {
    * @returns {number|Ndarray} If no axis is specified a number is returned, otherwise a new Ndarray is returned
    */
   avg = (axis) => avg(this, axis)
+  /**
+   * Get the median value of the Ndarray
+   * @param {number} [axis = null] If specified an axis along which the median should be found
+   * @returns {number|Ndarray} If no axis is specified a number is returned, otherwise a new Ndarray is returned
+   */
+  median = (axis) => median(this, axis)
+  /**
+   * Get the variance of the Ndarray
+   * @param {number} [axis = null] If specified an axis along which the variance should be found
+   * @returns {number|Ndarray} If no axis is specified a number is returned, otherwise a new Ndarray is returned
+   */
+  variance = (axis) => variance(this, axis)
+  /**
+   * Get the standard deviation of the Ndarray
+   * @param {number} [axis = null] If specified an axis along which the standard deviation should be found
+   * @returns {number|Ndarray} If no axis is specified a number is returned, otherwise a new Ndarray is returned
+   */
+  std = (axis) => std(this, axis)
   /**
    * Get the sum of the Ndarray
    * @param {number} [axis = null] If specified an axis along which the sum should be found

@@ -173,6 +173,63 @@ const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
 console.log(arr.avg(1).values())
 ```
 
+@id Ndarray.median
+@desc Get the median value of an entire ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+console.log(arr.median())
+```
+
+@id Ndarray.median
+@desc Get the median value along the second axis of a ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+// When we avg along an axis a new ndarray is returned.
+console.log(arr.median(1).values())
+```
+
+@id Ndarray.variance
+@desc Get the variance of an entire ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+console.log(arr.variance())
+```
+
+@id Ndarray.variance
+@desc Get the variance along the second axis of a ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+// When we avg along an axis a new ndarray is returned.
+console.log(arr.variance(1).values())
+```
+
+@id Ndarray.std
+@desc Get the standard deviation of an entire ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+console.log(arr.std())
+```
+
+@id Ndarray.std
+@desc Get the standard deviation along the second axis of a ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+// When we avg along an axis a new ndarray is returned.
+console.log(arr.std(1).values())
+```
+
 @id Ndarray.sum
 @desc Get the sum of an entire ndarray
 
