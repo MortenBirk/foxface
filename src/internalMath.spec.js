@@ -136,6 +136,38 @@ describe('std', () => {
   })
 })
 
+describe('mad', () => {
+  it('flat ndarray', () => {
+    const inData = [1, 2, 3, 4, 22, 6, 7, 8, 9, 20, 7]
+    const mat = ndarray(inData)
+
+    expect(mat.values()).toEqual(inData)
+    expect(mat.mad()).toBe(3)
+  })
+
+  it('3d ndarray', () => {
+    const inData = Float32Array.from({ length: 2 * 4 * 2 }, (_, idx) => idx)
+    const mat = ndarray(inData, { shape: [2, 4, 2] })
+    expect(mat.mad()).toBe(4)
+  })
+
+  it('3d ndarray along the last access', () => {
+    const inData = Float32Array.from({ length: 2 * 4 * 3 }, (_, idx) => idx)
+    const mat = ndarray(inData, { shape: [2, 4, 3] })
+    const avgMat = mat.mad(-1)
+    expect(avgMat.values()).toEqual([1, 1, 1, 1, 1, 1, 1, 1])
+    expect(avgMat.shape).toEqual([2, 4])
+  })
+
+  it('3d ndarray along the first access', () => {
+    const inData = Float32Array.from({ length: 3 * 4 * 2 }, (_, idx) => idx)
+    const mat = ndarray(inData, { shape: [3, 4, 2] })
+    const avgMat = mat.mad(0)
+    expect(avgMat.values()).toEqual([8, 8, 8, 8, 8, 8, 8, 8])
+    expect(avgMat.shape).toEqual([4, 2])
+  })
+})
+
 describe('sum', () => {
   it('flat ndarray', () => {
     const inData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -165,6 +197,24 @@ describe('sum', () => {
     const avgMat = mat.sum(0)
     expect(avgMat.values()).toEqual([8, 10, 12, 14, 16, 18, 20, 22])
     expect(avgMat.shape).toEqual([4, 2])
+  })
+})
+
+describe('abs', () => {
+  it('flat ndarray', () => {
+    const inData = [1, 2, -3, 4, 5, -0.2, 7, 8, -9, 10]
+    const mat = ndarray(inData)
+
+    expect(mat.values()).toEqual(inData)
+    expect(mat.abs().values()).toEqual([1, 2, 3, 4, 5, 0.2, 7, 8, 9, 10])
+  })
+
+  it('3d ndarray', () => {
+    const inData = [2, -3, 4, 5, -0.2, 7, 8, -9, -10, 2, -1, 2]
+    const mat = ndarray(inData, { shape: [3, 4] })
+    const abs = mat.abs()
+    expect(abs.values()).toEqual([2, 3, 4, 5, 0.2, 7, 8, 9, 10, 2, 1, 2])
+    expect(abs.shape).toEqual([3, 4])
   })
 })
 

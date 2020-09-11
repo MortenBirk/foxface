@@ -40,7 +40,7 @@ export const median = (mat, axis = null) => {
 
 export const variance = (mat, axis = null) => {
   const avg = mat.avg(axis)
-
+  // If broadcast is implemented this can be done much simpler
   if (axis !== null && axis !== undefined) {
     if (axis < 0) {
       axis = axis + mat.shape.length
@@ -56,7 +56,7 @@ export const variance = (mat, axis = null) => {
     return res
   }
 
-  return mat.sub(avg).pow(2).avg()
+  return mat.sub(avg).pow(2).avg(axis)
 }
 
 export const std = (mat, axis = null) => {
@@ -67,12 +67,33 @@ export const std = (mat, axis = null) => {
   return Math.sqrt(v)
 }
 
-export const sum = (mat, axis = null) => {
+export const mad = (mat, axis = null) => {
+  const med = mat.median(axis)
+
+  // If broadcast is implemented this can be done much simpler
   if (axis !== null && axis !== undefined) {
     if (axis < 0) {
       axis = axis + mat.shape.length
     }
 
+    const entry = mat.shape.map(e => [])
+    entry[axis] = 0
+    const res = mat.map((e, _, matIdx) => {
+      const medIdx = matIdx.filter((e, idx) => idx !== axis)
+      return Math.abs(e - med.get(medIdx))
+    })
+    return res.median(axis)
+  }
+
+  return mat.sub(med).abs().median()
+}
+
+export const sum = (mat, axis = null) => {
+  if (axis !== null && axis !== undefined) {
+    if (axis < 0) {
+      axis = axis + mat.shape.length
+    }
+    // If broadcast is implemented this can be done much simpler
     const entry = mat.shape.map(e => [])
     entry[axis] = 0
     const res = zerosLike(mat.get(entry))
@@ -84,6 +105,8 @@ export const sum = (mat, axis = null) => {
   }
   return mat.values().reduce((a, e) => a + e, 0)
 }
+
+export const abs = (mat) => mat.map(val => Math.abs(val))
 
 export const min = (mat) => mat.values().reduce((acc, e) => e < acc ? e : acc, Number.POSITIVE_INFINITY)
 

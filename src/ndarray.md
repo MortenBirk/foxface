@@ -169,7 +169,7 @@ console.log(arr.avg())
 ```js
 import ndarray from 'foxface'
 const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
-// When we avg along an axis a new ndarray is returned.
+// When we work along an axis a new ndarray is returned.
 console.log(arr.avg(1).values())
 ```
 
@@ -188,7 +188,7 @@ console.log(arr.median())
 ```js
 import ndarray from 'foxface'
 const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
-// When we avg along an axis a new ndarray is returned.
+// When we work along an axis a new ndarray is returned.
 console.log(arr.median(1).values())
 ```
 
@@ -207,7 +207,7 @@ console.log(arr.variance())
 ```js
 import ndarray from 'foxface'
 const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
-// When we avg along an axis a new ndarray is returned.
+// When we work along an axis a new ndarray is returned.
 console.log(arr.variance(1).values())
 ```
 
@@ -226,8 +226,27 @@ console.log(arr.std())
 ```js
 import ndarray from 'foxface'
 const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
-// When we avg along an axis a new ndarray is returned.
+// When we work along an axis a new ndarray is returned.
 console.log(arr.std(1).values())
+```
+
+@id Ndarray.mad
+@desc Get the median absolute deviation of an entire ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+console.log(arr.mad())
+```
+
+@id Ndarray.mad
+@desc Get the median absolute deviation along the second axis of a ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
+// When we work along an axis a new ndarray is returned.
+console.log(arr.mad(1).values())
 ```
 
 @id Ndarray.sum
@@ -247,6 +266,15 @@ import ndarray from 'foxface'
 const arr = ndarray(new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]), {shape: [3, 2, 3]})
 // When we sum along an axis a new ndarray is returned.
 console.log(arr.sum(0).values())
+```
+
+@id Ndarray.abs
+@desc Get the element-wise absolute values in the ndarray
+
+```js
+import ndarray from 'foxface'
+const arr = ndarray(new Float32Array([1, -2, 3, 4, -5, 6, 7, 8, -250, 10, 11, 12, 13, -14, 122, -16, 17, 18]), {shape: [3, 2, 3]})
+console.log(arr.abs().values())
 ```
 
 @id Ndarray.min
